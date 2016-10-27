@@ -2,7 +2,7 @@
 
 Wraps a function in a domain to capture async errors.
 
-Although domains are a deprecated API in node, it is sometimes the best option to solve specific problems trying to catch asynchronous errors. For those specific cases, this module comes to the rescue by easily wrapping a function call in a domain and forcing the callback to be called with the error instead of the uncaught error bubbling up and killing the whole process!
+Although `domain` is a deprecated API in node, it is sometimes the best option to solve specific problems trying to catch asynchronous errors. For those specific cases, this module comes to the rescue by easily wrapping a function call in a domain and forcing the callback to be called with the error instead of the uncaught error bubbling up and killing the whole process!
 
 More information on deprecation status:
 - https://nodejs.org/api/domain.html
