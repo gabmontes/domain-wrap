@@ -1,6 +1,11 @@
-const { expect } = require('chai')
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
 
 const protect = require('../lib')
+const protectAsync = require('../lib').async
+
+const { expect } = chai
+chai.use(chaiAsPromised)
 
 function testFn(value, shouldError, shouldThrow, callback) {
   setTimeout(function () {
@@ -15,7 +20,23 @@ function testFn(value, shouldError, shouldThrow, callback) {
   }, 0)
 }
 
+function testAsyncFn(value, shouldReject, shouldThrow) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      if (shouldThrow) {
+        throw new Error(value)
+      }
+      if (shouldReject) {
+        reject(new Error(value))
+        return
+      }
+      resolve(value)
+    }, 0)
+  })
+}
+
 const protectedFn = protect(testFn)
+const protectedAsyncFn = protectAsync(testAsyncFn)
 
 describe('Domain wrapped functions', function () {
   it('should call the callback if all is ok', function (done) {
@@ -57,5 +78,22 @@ describe('Domain wrapped functions', function () {
       expect(value).to.equals(testObject.value)
       done()
     })
+  })
+
+  it('should resolve if all is ok', function () {
+    const testValue = 'test'
+    return protectedAsyncFn(testValue, false, false).then(function (value) {
+      expect(value).to.equals(testValue)
+    })
+  })
+
+  it('should reject if there is an error', function () {
+    const testError = 'some error'
+    return expect(protectedAsyncFn(testError, true, false)).to.be.rejectedWith(testError)
+  })
+
+  it('should reject if the fn throws within the domain', function () {
+    const testError = 'thrown error'
+    return expect(protectedAsyncFn(testError, false, true)).to.be.rejectedWith(testError)
   })
 })
