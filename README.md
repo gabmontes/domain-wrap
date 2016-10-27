@@ -34,7 +34,7 @@ protectedFn(args, function (err, result) {
 
 ## API
 
-### shield(fn)
+### protect(fn)
 
 #### Parameters
 
