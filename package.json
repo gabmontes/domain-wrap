@@ -46,7 +46,7 @@
     "babel-preset-latest-minimal": "^1.1.2",
     "babel-register": "^6.16.3",
     "chai": "^3.5.0",
-    "chai-as-promised": "^6.0.0",
+    "chai-as-promised": "^7.0.0",
     "eslint": "^3.8.1",
     "mocha": "^3.1.2",
     "nyc": "^10.0.0"
